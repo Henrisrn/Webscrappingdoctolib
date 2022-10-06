@@ -1,24 +1,22 @@
 import pandas as pd
-from selenium import webdriver
 from bs4 import BeautifulSoup
 from lxml import etree
 import time
 import traceback
 from datetime import datetime
 import csv
+import requests
 
-driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (1)//chromedriver.exe")    
 
 jobs=['osteopathe','psychologue','chiropracteur','dieteticien','psychomotricien']
 
-# %%
 full_table=[]
 start=datetime.now()
 try:
     for page in range(1,905):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/osteopathe/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        a = requests.get("https://www.doctolib.fr/osteopathe/france?page="+str(page))
+        result_soup=BeautifulSoup(a.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -26,8 +24,8 @@ try:
             try:
                 link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                b = requests.get(full_link)
+                soup=BeautifulSoup(b,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -157,8 +155,8 @@ except Exception:
 try:
     for page in range(391,528):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/psychologue/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        c = requests.get("https://www.doctolib.fr/psychologue/france?page="+str(page))
+        result_soup=BeautifulSoup(c,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -166,8 +164,8 @@ try:
             try:
                 link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                d = requests.get(full_link)
+                soup=BeautifulSoup(d,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -296,8 +294,8 @@ except Exception:
 try:
     for page in range(1,46):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/chiropracteur/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        g = requests.get("https://www.doctolib.fr/chiropracteur/france?page="+str(page))
+        result_soup=BeautifulSoup(g.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
         #print(search_results[0])
@@ -309,8 +307,8 @@ try:
                 #print(link)
                 
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                h = requests.get(full_link)
+                soup=BeautifulSoup(h,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -439,8 +437,8 @@ except Exception:
 try:
     for page in range(1,177):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/dieteticien/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        h = requests.get("https://www.doctolib.fr/dieteticien/france?page="+str(page))
+        result_soup=BeautifulSoup(h.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -449,8 +447,8 @@ try:
                 #link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 link=result.find('a',class_="dl-link")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                i = requests.get(full_link)
+                soup=BeautifulSoup(i.text,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -579,8 +577,8 @@ except Exception:
 try:
     for page in range(1,27):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/psychomotricien/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        j = requests.get("https://www.doctolib.fr/psychomotricien/france?page="+str(page))
+        result_soup=BeautifulSoup(j.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -589,8 +587,8 @@ try:
                 #link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 link=result.find('a',class_="dl-link")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                u = requests.get(full_link)
+                soup=BeautifulSoup(u.text,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -716,8 +714,8 @@ except Exception:
 try:
     for page in range(1,27):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/psychomotricien/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        v = requests.get("https://www.doctolib.fr/psychomotricien/france?page="+str(page))
+        result_soup=BeautifulSoup(v.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -726,8 +724,8 @@ try:
                 #link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 link=result.find('a',class_="dl-link")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                t = requests.get(full_link)
+                soup=BeautifulSoup(t.text,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -859,8 +857,8 @@ except Exception:
 try:
     for page in range(1,349):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/pedicure-podologue/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        r = requests.get("https://www.doctolib.fr/pedicure-podologue/france?page="+str(page))
+        result_soup=BeautifulSoup(r.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -869,8 +867,8 @@ try:
                 link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 #link=result.find('a',class_="dl-link")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                b = requests.get(full_link)
+                soup=BeautifulSoup(b.text,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -999,8 +997,8 @@ except Exception:
 try:
     for page in range(1,160):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/sophrologue/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        aa = requests.get("https://www.doctolib.fr/sophrologue/france?page="+str(page))
+        result_soup=BeautifulSoup(aa.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -1009,8 +1007,8 @@ try:
                 link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 #link=result.find('a',class_="dl-link")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                bb = requests.get(full_link)
+                soup=BeautifulSoup(bb.text,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -1140,8 +1138,8 @@ except Exception:
 try:
     for page in range(1,273):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/hypnotherapeute/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        cc = requests.get("https://www.doctolib.fr/hypnotherapeute/france?page="+str(page))
+        result_soup=BeautifulSoup(cc.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -1150,8 +1148,8 @@ try:
                 link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 #link=result.find('a',class_="dl-link")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                dd = requests.get(full_link)
+                soup=BeautifulSoup(dd.text,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -1281,8 +1279,8 @@ except Exception:
 try:
     for page in range(1,117):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/psychanalyste/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        ee = requests.get("https://www.doctolib.fr/psychanalyste/france?page="+str(page))
+        result_soup=BeautifulSoup(ee.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -1291,8 +1289,8 @@ try:
                 link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 #link=result.find('a',class_="dl-link")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                ff = requests.get(full_link)
+                soup=BeautifulSoup(ff.text,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -1422,8 +1420,8 @@ except Exception:
 try:
     for page in range(1,85):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/naturopathe/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        gg = requests.get("https://www.doctolib.fr/naturopathe/france?page="+str(page))
+        result_soup=BeautifulSoup(gg.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -1432,8 +1430,8 @@ try:
                 link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 #link=result.find('a',class_="dl-link")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                hh = requests.get(full_link)
+                soup=BeautifulSoup(hh.text,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
@@ -1563,8 +1561,8 @@ except Exception:
 try:
     for page in range(1,41):
         start_page=datetime.now()
-        driver.get("https://www.doctolib.fr/acupuncteur/france?page="+str(page))
-        result_soup=BeautifulSoup(driver.page_source,'lxml')
+        ii = requests.get("https://www.doctolib.fr/acupuncteur/france?page="+str(page))
+        result_soup=BeautifulSoup(ii.text,'lxml')
         search_results = result_soup.find_all('div',class_="dl-search-result")
         time.sleep(4)
 
@@ -1573,8 +1571,8 @@ try:
                 link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 #link=result.find('a',class_="dl-link")['href']
                 full_link="https://www.doctolib.fr"+link
-                driver.get(full_link)
-                soup=BeautifulSoup(driver.page_source,'lxml')
+                jj = requests.get(full_link)
+                soup=BeautifulSoup(jj.text,'lxml')
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
                     break
