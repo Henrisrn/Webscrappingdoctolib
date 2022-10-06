@@ -10,7 +10,7 @@ from datetime import datetime
 import csv
 import json
 
-driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (1)//chromedriver.exe")    
+#driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (1)//chromedriver.exe")    
 #driver.get("https://www.doctolib.fr")
 #time.sleep(4)
 jobs=['osteopathe','psychologue','chiropracteur','dieteticien','psychomotricien']
