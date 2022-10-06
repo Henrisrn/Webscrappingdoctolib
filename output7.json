@@ -1,0 +1,42 @@
+{
+    "availabilities": [],
+    "message": "Pas de rendez-vous r\u00e9servable en ligne pour ce praticien.\nAppelez le 03 22 33 32 70 pour prendre un rendez-vous.\n",
+    "reason": "no_availabilities",
+    "search_result": {
+        "address": "49 Rue Alexandre Dumas",
+        "agenda_ids": [],
+        "booking_temporary_disabled": false,
+        "city": "Amiens",
+        "cloudinary_public_id": "jmne1j9prwbbmyddpniw",
+        "exact_match": null,
+        "first_name": "Brigitte",
+        "id": 6004625,
+        "is_directory": false,
+        "kind": "doctor",
+        "last_name": "PAUTARD",
+        "link": "/pediatre/amiens/brigitte-pautard",
+        "minimum_fee": "45.0",
+        "name_with_title": "Dr Brigitte PAUTARD",
+        "organization_status": null,
+        "place_id": null,
+        "position": {
+            "lat": 49.8710026,
+            "lng": 2.296906700000022
+        },
+        "practice_ids": [
+            11430
+        ],
+        "priority_speciality": false,
+        "profile_id": 19611,
+        "regulation_sector": "Conventionn\u00e9 secteur 1 avec droit permanent \u00e0 d\u00e9passement",
+        "resetVisitMotive": null,
+        "speciality": "P\u00e9diatre",
+        "telehealth": false,
+        "toFinalizeStep": null,
+        "toFinalizeStepWithoutState": null,
+        "url": "/pediatre/amiens/brigitte-pautard",
+        "visit_motive_type": null,
+        "zipcode": "80090"
+    },
+    "total": 0
+}

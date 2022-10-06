@@ -1,0 +1,104 @@
+{
+    "availabilities": [
+        {
+            "appointment_request_slots": [],
+            "date": "2022-09-30",
+            "slots": [
+                "2022-09-30T18:00:00.000+02:00"
+            ],
+            "substitution": null
+        },
+        {
+            "appointment_request_slots": [],
+            "date": "2022-10-01",
+            "slots": [
+                "2022-10-01T10:15:00.000+02:00",
+                "2022-10-01T11:15:00.000+02:00",
+                "2022-10-01T12:15:00.000+02:00",
+                "2022-10-01T13:15:00.000+02:00",
+                "2022-10-01T15:15:00.000+02:00"
+            ],
+            "substitution": null
+        },
+        {
+            "appointment_request_slots": [],
+            "date": "2022-10-02",
+            "slots": [],
+            "substitution": null
+        },
+        {
+            "appointment_request_slots": [],
+            "date": "2022-10-03",
+            "slots": [
+                "2022-10-03T09:00:00.000+02:00",
+                "2022-10-03T10:00:00.000+02:00",
+                "2022-10-03T11:00:00.000+02:00",
+                "2022-10-03T12:00:00.000+02:00",
+                "2022-10-03T13:00:00.000+02:00",
+                "2022-10-03T14:00:00.000+02:00",
+                "2022-10-03T15:00:00.000+02:00",
+                "2022-10-03T16:00:00.000+02:00",
+                "2022-10-03T17:00:00.000+02:00",
+                "2022-10-03T18:00:00.000+02:00"
+            ],
+            "substitution": {
+                "M. Th\u00e9o Girost": {
+                    "slots": [
+                        "2022-10-03T09:00:00.000+02:00",
+                        "2022-10-03T10:00:00.000+02:00",
+                        "2022-10-03T11:00:00.000+02:00",
+                        "2022-10-03T12:00:00.000+02:00",
+                        "2022-10-03T13:00:00.000+02:00",
+                        "2022-10-03T14:00:00.000+02:00",
+                        "2022-10-03T15:00:00.000+02:00",
+                        "2022-10-03T16:00:00.000+02:00",
+                        "2022-10-03T17:00:00.000+02:00",
+                        "2022-10-03T18:00:00.000+02:00"
+                    ],
+                    "status": "Collaborateur"
+                }
+            }
+        }
+    ],
+    "search_result": {
+        "address": "22 Avenue Anatole France",
+        "agenda_ids": [
+            26525
+        ],
+        "booking_temporary_disabled": false,
+        "city": "Clichy",
+        "cloudinary_public_id": "tlp0ltmxcvsnlbaydt2t",
+        "exact_match": null,
+        "first_name": "Yannis",
+        "id": 6004618,
+        "is_directory": false,
+        "kind": "doctor",
+        "last_name": "BABOU",
+        "link": "/osteopathe/clichy/yannis-babou",
+        "minimum_fee": "65.0",
+        "name_with_title": "M. Yannis BABOU",
+        "organization_status": null,
+        "place_id": null,
+        "position": {
+            "lat": 48.89810699999999,
+            "lng": 2.304628399999956
+        },
+        "practice_ids": [
+            11426
+        ],
+        "priority_speciality": false,
+        "profile_id": 19739,
+        "regulation_sector": "",
+        "resetVisitMotive": true,
+        "speciality": "Ost\u00e9opathe",
+        "telehealth": false,
+        "toFinalizeStep": true,
+        "toFinalizeStepWithoutState": false,
+        "url": "/osteopathe/clichy/yannis-babou",
+        "visit_motive_id": 156791,
+        "visit_motive_name": "Premi\u00e8re consultation d'ost\u00e9opathie",
+        "visit_motive_type": "most_booked_vm",
+        "zipcode": "92110"
+    },
+    "total": 16
+}
