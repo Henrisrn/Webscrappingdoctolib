@@ -52,7 +52,7 @@ for j in range(20):
                         b = open("dossjson/sortiefinpart2"+str(count)+".json","w")
                         b.write(f[0].replace(">","").replace(chr(92),""))
                         b.close
-                        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+                        u = pd.read_json(f[0].replace(">","").replace(chr(92) , ""))
                         u.to_excel("dossjson/sortiefinpart2"+str(count)+".xlsx")
                         print(str(count)+"/800")
                         count+= 1
