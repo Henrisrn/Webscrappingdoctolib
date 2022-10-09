@@ -16,6 +16,8 @@ def jprint(obj):
 
 jobs=['osteopathe','psychologue','chiropracteur','dieteticien','psychomotricien']
 
+aoppp = open("slash.txt","r")
+slash = str(aoppp.read())
 full_table=[]
 start=datetime.now()
 #Mettre 905
@@ -26,14 +28,14 @@ for page in range(1,905):
     soup = BeautifulSoup(a.text, 'html.parser')
     my_bytes = str(soup.encode('utf-8'))
     f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-    u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+    u = pd.read_json(f[0].replace(">","").replace(slash,""))
     time.sleep(4)
 
     for url in u["url"]:
             #driver.get("https://www.doctolib.fr"+str(url))
             #soup=BeautifulSoup(driver.page_source,'lxml')
                 #a = driver.get("https://www.doctolib.fr"+str(url))
-                a = requests.get("https://www.doctolib.fr/osteopathe/courbevoie/melanie-catica")
+                a = requests.get("https://www.doctolib.fr"+str(url),headers=headers)
                 soup = BeautifulSoup(a.text,'lxml')
                 my_bytes = str(soup.encode('utf-8'))
 
@@ -162,7 +164,7 @@ for page in range(1,905):
                     
             #f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
             #f = my_bytes.split('<script type="application/ld+json"')[1].split('<')
-            #hh = f[0].replace(">","").replace(chr(92),"")
+            #hh = f[0].replace(">","").replace(slash,"")
             #jprint(str(hh))
             
                 time.sleep(1.5)
@@ -176,7 +178,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
 
         for result in u['url']:
@@ -328,7 +330,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
         #print(search_results[0])
         #input()
@@ -488,7 +490,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
 
         for result in u['url']:
@@ -642,7 +644,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
 
         for result in u['url']:
@@ -794,7 +796,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
 
         for result in u['url']:
@@ -945,7 +947,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
 
         for result in u['url']:
@@ -1096,7 +1098,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
 
         for result in u['url']:
@@ -1248,7 +1250,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
 
         for result in u['url']:
@@ -1400,7 +1402,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
 
         for result in u['url']:
@@ -1552,7 +1554,7 @@ try:
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
-        u = pd.read_json(f[0].replace(">","").replace(chr(92),""))
+        u = pd.read_json(f[0].replace(">","").replace(slash,""))
         time.sleep(4)
 
         for result in u['url']:
