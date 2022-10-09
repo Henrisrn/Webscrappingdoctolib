@@ -171,7 +171,7 @@ try:
                 
                     time.sleep(1.5)
 except Exception:
-    full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien'])
+    full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
     full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
     print('something went wrong')
     traceback.print_exc()
