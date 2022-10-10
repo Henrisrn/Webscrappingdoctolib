@@ -40,6 +40,7 @@ try:
                 #driver.get("https://www.doctolib.fr"+str(url))
                 #soup=BeautifulSoup(driver.page_source,'lxml')
                     #a = driver.get("https://www.doctolib.fr"+str(url))
+
                     a = requests.get("https://www.doctolib.fr"+str(url),headers=headers)
                     soup = BeautifulSoup(a.text,'lxml')
                     my_bytes = str(soup.encode('utf-8'))
@@ -51,6 +52,8 @@ try:
                     name_list=name.split(' ')
                     last_name=name_list[-1]
                     first_name=' '.join(name_list[:-1])
+                    if(len(first_name)>15 or len(last_name)>15):
+                        break
                     job=url.split('/')[1]
 
                     if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -206,6 +209,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -367,6 +372,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -526,6 +533,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -657,8 +666,7 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("osteopathesetpsycologueetchiropracteuretdietetitien.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 
 
 try:
@@ -685,6 +693,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -814,9 +824,6 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("osteopathesetpsycologueetchiropracteuretdietetitienetpsycomotricien.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
-
 try:
     for page in range(1,349):
         start_page=datetime.now()
@@ -840,6 +847,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -969,8 +978,7 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("osteopathesetpsycologueetchiropracteuretdietetitienetpsycomotricienetpedicurepodologue.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 
 try:
     for page in range(1,160):
@@ -995,6 +1003,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1124,8 +1134,6 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("sophrologue.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
 
 try:
     for page in range(1,273):
@@ -1150,6 +1158,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1280,8 +1290,7 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("sophrologueethypnoterapeutre.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 
 try:
     for page in range(1,117):
@@ -1306,6 +1315,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1436,8 +1447,7 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("sophrologueethypnoterapeutreetpsycanalyse.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 
 try:
     for page in range(1,85):
@@ -1462,6 +1472,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1592,8 +1604,7 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("naturopathe.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 
 try:
     for page in range(1,41):
@@ -1618,6 +1629,8 @@ try:
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
+                if(len(first_name)>15 or len(last_name)>15):
+                        break
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1747,8 +1760,7 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("acupuncteur.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 
 full_df.head()
 
