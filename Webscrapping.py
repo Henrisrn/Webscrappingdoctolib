@@ -27,13 +27,11 @@ try:
         start_page=datetime.now()
         headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
         a = requests.get("https://www.doctolib.fr/osteopathe/france?page="+str(page),headers=headers)
-
+        soup = BeautifulSoup(a.text, 'html.parser')
+        my_bytes = str(soup.encode('utf-8'))
         if(len(my_bytes.split('<script type="application/ld+json"'))<2):
             print("Probleme avec le capcha")
             break
-
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(6)
