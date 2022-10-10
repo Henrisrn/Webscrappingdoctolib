@@ -27,11 +27,16 @@ try:
         start_page=datetime.now()
         headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
         a = requests.get("https://www.doctolib.fr/osteopathe/france?page="+str(page),headers=headers)
+
+        if(len(my_bytes.split('<script type="application/ld+json"'))<2):
+            print("Probleme avec le capcha")
+            break
+
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for url in u["url"]:
                 #driver.get("https://www.doctolib.fr"+str(url))
@@ -169,13 +174,15 @@ try:
                 #hh = f[0].replace(">","").replace(slash,"")
                 #jprint(str(hh))
                 
-                    time.sleep(1.5)
+                    time.sleep(3)
 except Exception:
     full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
     full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
     print('something went wrong')
     traceback.print_exc()
-    
+
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("osteopathes1.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
 
 try:
     for page in range(391,528):
@@ -186,7 +193,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for result in u['url']:
             try:
@@ -312,6 +319,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
             
         
         time_page=datetime.now()-start_page
@@ -329,6 +337,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("osteopathesetpsycologue.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 try:
     for page in range(1,46):
         start_page=datetime.now()
@@ -338,7 +349,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
         #print(search_results[0])
         #input()
         for result in u['url']:
@@ -470,6 +481,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
             
         
         time_page=datetime.now()-start_page
@@ -489,6 +501,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("osteopathesetpsycologueetchiropracteur.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 try:
     for page in range(1,177):
         start_page=datetime.now()
@@ -498,7 +513,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for result in u['url']:
             try:
@@ -625,6 +640,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
                 
             
         
@@ -643,6 +659,10 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("osteopathesetpsycologueetchiropracteuretdietetitien.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
+
 try:
     for page in range(1,27):
         start_page=datetime.now()
@@ -652,7 +672,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for result in u['url']:
             try:
@@ -778,6 +798,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
             
         
         time_page=datetime.now()-start_page
@@ -795,6 +816,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("osteopathesetpsycologueetchiropracteuretdietetitienetpsycomotricien.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 try:
     for page in range(1,349):
         start_page=datetime.now()
@@ -804,7 +828,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for result in u['url']:
             try:
@@ -929,6 +953,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
             
         
         time_page=datetime.now()-start_page
@@ -946,6 +971,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("osteopathesetpsycologueetchiropracteuretdietetitienetpsycomotricienetpedicurepodologue.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 try:
     for page in range(1,160):
         start_page=datetime.now()
@@ -955,7 +983,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for result in u['url']:
             try:
@@ -1081,6 +1109,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
             
         time_page=datetime.now()-start_page
         print("page "+str(page)+" done;",'time taken for 20 profils : ',time_page)
@@ -1097,6 +1126,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("sophrologue.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 try:
     for page in range(1,273):
         start_page=datetime.now()
@@ -1106,7 +1138,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for result in u['url']:
             try:
@@ -1232,6 +1264,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
             
         
         time_page=datetime.now()-start_page
@@ -1249,6 +1282,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("sophrologueethypnoterapeutre.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 try:
     for page in range(1,117):
         start_page=datetime.now()
@@ -1258,7 +1294,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for result in u['url']:
             try:
@@ -1384,6 +1420,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
             
         
         time_page=datetime.now()-start_page
@@ -1401,6 +1438,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("sophrologueethypnoterapeutreetpsycanalyse.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 try:
     for page in range(1,85):
         start_page=datetime.now()
@@ -1410,7 +1450,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for result in u['url']:
             try:
@@ -1536,6 +1576,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
             
         
         time_page=datetime.now()-start_page
@@ -1553,6 +1594,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("naturopathe.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+
 try:
     for page in range(1,41):
         start_page=datetime.now()
@@ -1562,7 +1606,7 @@ try:
         my_bytes = str(soup.encode('utf-8'))
         f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(4)
+        time.sleep(6)
 
         for result in u['url']:
             try:
@@ -1688,6 +1732,7 @@ try:
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
+            time.sleep(3)
             
         time_page=datetime.now()-start_page
         print("page "+str(page)+" done;",'time taken for 20 profils : ',time_page)
@@ -1703,6 +1748,9 @@ except Exception:
     full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
     print('something went wrong')
     traceback.print_exc()
+
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
+full_df.to_csv("acupuncteur.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
 
 full_df.head()
 
