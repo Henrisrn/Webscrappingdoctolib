@@ -29,7 +29,7 @@ try:
         a = requests.get("https://www.doctolib.fr/osteopathe/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -184,7 +184,7 @@ try:
         a = requests.get("https://www.doctolib.fr/psychologue/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -336,7 +336,7 @@ try:
         a = requests.get("https://www.doctolib.fr/chiropracteur/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
         #print(search_results[0])
@@ -496,7 +496,7 @@ try:
         a = requests.get("https://www.doctolib.fr/dieteticien/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -650,7 +650,7 @@ try:
         a = requests.get("https://www.doctolib.fr/psychomotricien/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -802,7 +802,7 @@ try:
         a = requests.get("https://www.doctolib.fr/pedicure-podologue/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -953,7 +953,7 @@ try:
         a = requests.get("https://www.doctolib.fr/sophrologue/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -1104,7 +1104,7 @@ try:
         a = requests.get("https://www.doctolib.fr/hypnotherapeute/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -1256,7 +1256,7 @@ try:
         a = requests.get("https://www.doctolib.fr/psychanalyste/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -1408,7 +1408,7 @@ try:
         a = requests.get("https://www.doctolib.fr/naturopathe/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -1560,7 +1560,7 @@ try:
         a = requests.get("https://www.doctolib.fr/acupuncteur/france?page="+str(page),headers=headers)
         soup = BeautifulSoup(a.text, 'html.parser')
         my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
+        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
         u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
         time.sleep(4)
 
@@ -1760,7 +1760,7 @@ full_df['Visites a domicile']=full_df['Visites a domicile'].apply(numero_formatt
 
 
 full_df.head()
-
-full_df.to_excel("all_jobs_2.xlsx" )
 full_df.to_csv("all_jobs_2.csv",quoting=csv.QUOTE_ALL)
+full_df.to_excel("all_jobs_2.xlsx" )
+
 #,quoting=csv.QUOTE_ALL
