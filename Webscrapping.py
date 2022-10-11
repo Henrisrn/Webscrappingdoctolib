@@ -13,7 +13,7 @@ def jprint(obj):
     # create a formatted string of the Python JSON object
     text = json.dumps(obj, sort_keys=True,indent=4)
     print(text)
-driver=webdriver.Chrome("chromedriver.exe")    
+driver=webdriver.Chrome("chromedriver")    
 headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
 jobs=['osteopathe','psychologue','chiropracteur','dieteticien','psychomotricien']
 
