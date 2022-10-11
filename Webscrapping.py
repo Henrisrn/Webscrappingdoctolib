@@ -13,48 +13,46 @@ def jprint(obj):
     # create a formatted string of the Python JSON object
     text = json.dumps(obj, sort_keys=True,indent=4)
     print(text)
-#driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (1)//chromedriver.exe")    
-
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (1)//chromedriver.exe")    
+headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
 jobs=['osteopathe','psychologue','chiropracteur','dieteticien','psychomotricien']
 
-aoppp = open("slash.txt","r")
-slash = str(aoppp.read())
 full_table=[]
 start=datetime.now()
 #Mettre 905
 try:
     for page in range(1,905):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/osteopathe/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        if(len(my_bytes.split('<script type="application/ld+json"'))<2):
-            print("Probleme avec le capcha")
-            break
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/osteopathe/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for url in u["url"]:
+        for i in tablink:
                 #driver.get("https://www.doctolib.fr"+str(url))
                 #soup=BeautifulSoup(driver.page_source,'lxml')
                     #a = driver.get("https://www.doctolib.fr"+str(url))
-
-                    a = requests.get("https://www.doctolib.fr"+str(url),headers=headers)
+                    print(i)
+                    a = requests.get("https://www.doctolib.fr"+str(i),headers=headers)
                     soup = BeautifulSoup(a.text,'lxml')
                     my_bytes = str(soup.encode('utf-8'))
-
+                    time.sleep(1)
                     if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                        break
+                        continue
 
                     name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                     name_list=name.split(' ')
                     last_name=name_list[-1]
                     first_name=' '.join(name_list[:-1])
                     if(len(first_name)>15 or len(last_name)>15):
-                        break
-                    job=url.split('/')[1]
+                        continue
+                    job=i.split('/')[1]
 
                     if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
                         #print('no payment')
@@ -142,7 +140,13 @@ try:
                     #print(contact,";",emergency_contact,";",home)
 
                     adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                    rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                    try: 
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                    except:
+                        continue
                     adeli_number='n/a' 
                     rpps_number ='n/a'
                     if('ADELI' in adeli):
@@ -150,9 +154,7 @@ try:
                     if('RPPS' in adeli):
                         rpps_number=adeli.split('S')[1]
                         print("Numéro rpps = "+rpps_number)
-                    if('RPPS' in rpps):
-                        rpps_number=rpps.split('S')[1]
-                        print("Numéro rpps = "+rpps_number)
+                    
                     
                     print("Last Name : "+str(last_name))
                     print("First Name : "+str(first_name))
@@ -161,7 +163,7 @@ try:
                     print("Street : "+str(street))
                     print("ZIP : "+str(zipcode))
                     print("RPPS Number : "+str(rpps_number))
-                    full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,url,rpps_number])
+                    full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,i,rpps_number])
                     #input()
                     
                     time_page=datetime.now()-start_page
@@ -188,29 +190,32 @@ full_df.to_csv("osteopathes1.csv",quoting=csv.QUOTE_ALL,quotechar='"')
 try:
     for page in range(391,528):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/psychologue/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/psychologue/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for result in u['url']:
+        for result in tablink:
             try:
                 a = requests.get("https://www.doctolib.fr"+str(result),headers=headers)
                 soup = BeautifulSoup(a.text,'lxml')
                 my_bytes = str(soup.encode('utf-8'))
-
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -296,19 +301,25 @@ try:
                         time.sleep(0)
                         #input()
                 #print(contact,";",emergency_contact,";",home)
-
-                adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
                 adeli_number='n/a' 
                 rpps_number ='n/a'
-                if('ADELI' in adeli):
-                    adeli_number=adeli[-9:]
-                if('RPPS' in adeli):
-                    rpps_number=adeli.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                try: 
+                        adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                        if('ADELI' in adeli):
+                             adeli_number=adeli[-9:]
+                        if('RPPS' in adeli):
+                            rpps_number=adeli.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:   
+                        continue
+                
+                
+                
+                
 
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
                 #input()
@@ -346,16 +357,19 @@ full_df.to_csv("osteopathesetpsycologue.csv",quoting=csv.QUOTE_ALL,quotechar='"'
 try:
     for page in range(1,46):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/chiropracteur/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/chiropracteur/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
         #print(search_results[0])
         #input()
-        for result in u['url']:
+        for result in tablink:
             try:
                 #link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 
@@ -364,16 +378,16 @@ try:
                 soup = BeautifulSoup(a.text,'lxml')
                 my_bytes = str(soup.encode('utf-8'))
                 soup=BeautifulSoup(a.text,'lxml')
-
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -460,18 +474,22 @@ try:
                         time.sleep(0)
                 #print(contact,";",emergency_contact,";",home)
 
-                adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
                 adeli_number='n/a' 
-                rpps_number='n/a'
-                if('ADELI' in adeli):
-                    adeli_number=adeli[-9:]
-                if('RPPS' in adeli):
-                    rpps_number=adeli.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                rpps_number ='n/a'
+                try: 
+                        adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                        if('ADELI' in adeli):
+                             adeli_number=adeli[-9:]
+                        if('RPPS' in adeli):
+                            rpps_number=adeli.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:   
+                        continue
+                
                 
 
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
@@ -512,29 +530,32 @@ full_df.to_csv("osteopathesetpsycologueetchiropracteur.csv",quoting=csv.QUOTE_AL
 try:
     for page in range(1,177):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/dieteticien/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/dieteticien/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for result in u['url']:
+        for result in tablink:
             try:
                 #link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 a = requests.get("https://www.doctolib.fr"+str(result),headers=headers)
                 soup=BeautifulSoup(a.text,'lxml')
-
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -621,18 +642,22 @@ try:
                         #input()
                 #print(contact,";",emergency_contact,";",home)
 
-                adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
                 adeli_number='n/a' 
-                rpps_number='n/a'
-                if('ADELI' in adeli):
-                    adeli_number=adeli[-9:]
-                if('RPPS' in adeli):
-                    rpps_number=adeli.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                rpps_number ='n/a'
+                try: 
+                        adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                        if('ADELI' in adeli):
+                             adeli_number=adeli[-9:]
+                        if('RPPS' in adeli):
+                            rpps_number=adeli.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:   
+                        print("Problème avec soit adeli ou rpps")
+                
                 
 
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
@@ -672,29 +697,32 @@ except Exception:
 try:
     for page in range(1,27):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/psychomotricien/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/psychomotricien/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for result in u['url']:
+        for result in tablink:
             try:
                 #link=result.find('a',class_="dl-search-result-name js-search-result-path")['href']
                 a = requests.get("https://www.doctolib.fr"+str(result),headers=headers)
                 soup=BeautifulSoup(a.text,'lxml')
-
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -781,18 +809,22 @@ try:
                         #input()
                 #print(contact,";",emergency_contact,";",home)
 
-                adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps =soup.find_all('div',class_="dl-profile-row-section")[-2].text
                 adeli_number='n/a' 
-                rpps_number='n/a'
-                if('ADELI' in adeli):
-                    adeli_number=adeli[-9:]
-                if('RPPS' in adeli):
-                    rpps_number=adeli.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                rpps_number ='n/a'
+                try: 
+                        adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                        if('ADELI' in adeli):
+                             adeli_number=adeli[-9:]
+                        if('RPPS' in adeli):
+                            rpps_number=adeli.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:   
+                        continue
+                
 
                 print("Last Name : "+str(last_name))
                 print("First Name : "+str(first_name))
@@ -827,28 +859,31 @@ except Exception:
 try:
     for page in range(1,349):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/pedicure-podologue/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/pedicure-podologue/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for result in u['url']:
+        for result in tablink:
             try:
                 a = requests.get("https://www.doctolib.fr"+str(result),headers=headers)
                 soup=BeautifulSoup(a.text,'lxml')
-
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -935,18 +970,22 @@ try:
                         #input()
                 #print(contact,";",emergency_contact,";",home)
 
-                adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps =soup.find_all('div',class_="dl-profile-row-section")[-2].text
                 adeli_number='n/a' 
-                rpps_number='n/a'
-                if('ADELI' in adeli):
-                    adeli_number=adeli[-9:]
-                if('RPPS' in adeli):
-                    rpps_number=adeli.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                rpps_number ='n/a'
+                try: 
+                        adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                        if('ADELI' in adeli):
+                             adeli_number=adeli[-9:]
+                        if('RPPS' in adeli):
+                            rpps_number=adeli.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:   
+                        continue
+                
                     
                 print("Last Name : "+str(last_name))
                 print("First Name : "+str(first_name))
@@ -983,28 +1022,31 @@ except Exception:
 try:
     for page in range(1,160):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/sophrologue/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/sophrologue/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for result in u['url']:
+        for result in tablink:
             try:
                 a = requests.get("https://www.doctolib.fr"+str(result),headers=headers)
                 soup=BeautifulSoup(a.text,'lxml')
-                
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1092,18 +1134,22 @@ try:
                         #input()
                 #print(contact,";",emergency_contact,";",home)
 
-                adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps =soup.find_all('div',class_="dl-profile-row-section")[-2].text
                 adeli_number='n/a' 
-                rpps_number='n/a'
-                if('ADELI' in adeli):
-                    adeli_number=adeli[-9:]
-                if('RPPS' in adeli):
-                    rpps_number=adeli.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                rpps_number ='n/a'
+                try: 
+                        adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                        if('ADELI' in adeli):
+                             adeli_number=adeli[-9:]
+                        if('RPPS' in adeli):
+                            rpps_number=adeli.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:   
+                        continue
+                
 
                 print("Last Name : "+str(last_name))
                 print("First Name : "+str(first_name))
@@ -1138,28 +1184,31 @@ except Exception:
 try:
     for page in range(1,273):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/hypnotherapeute/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/hypnotherapeute/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for result in u['url']:
+        for result in tablink:
             try:
                 a = requests.get("https://www.doctolib.fr"+str(result),headers=headers)
                 soup=BeautifulSoup(a.text,'lxml')
-
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1247,18 +1296,22 @@ try:
                         #input()
                 #print(contact,";",emergency_contact,";",home)
 
-                adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps =soup.find_all('div',class_="dl-profile-row-section")[-2].text
                 adeli_number='n/a' 
-                rpps_number='n/a'
-                if('ADELI' in adeli):
-                    adeli_number=adeli[-9:]
-                if('RPPS' in adeli):
-                    rpps_number=adeli.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                rpps_number ='n/a'
+                try: 
+                        adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                        if('ADELI' in adeli):
+                             adeli_number=adeli[-9:]
+                        if('RPPS' in adeli):
+                            rpps_number=adeli.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:   
+                        continue
+                
 
                 print("Last Name : "+str(last_name))
                 print("First Name : "+str(first_name))
@@ -1295,28 +1348,32 @@ except Exception:
 try:
     for page in range(1,117):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/psychanalyste/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/psychanalyste/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for result in u['url']:
+        for result in tablink:
             try:
                 a = requests.get("https://www.doctolib.fr"+str(result),headers=headers)
                 soup=BeautifulSoup(a.text,'lxml')
 
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1404,18 +1461,22 @@ try:
                         #input()
                 #print(contact,";",emergency_contact,";",home)
 
-                adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps= soup.find_all('div',class_="dl-profile-row-section")[-2].text
                 adeli_number='n/a' 
                 rpps_number ='n/a'
-                if('ADELI' in adeli):
-                    adeli_number=adeli[-9:]
-                if('RPPS' in adeli):
-                    rpps_number=adeli.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                try: 
+                        adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                        if('ADELI' in adeli):
+                             adeli_number=adeli[-9:]
+                        if('RPPS' in adeli):
+                            rpps_number=adeli.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:   
+                        continue
+                
 
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
                 #input()
@@ -1452,28 +1513,32 @@ except Exception:
 try:
     for page in range(1,85):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/naturopathe/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/naturopathe/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i)
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for result in u['url']:
+        for result in tablink:
             try:
                 a = requests.get("https://www.doctolib.fr"+str(result),headers=headers)
                 soup=BeautifulSoup(a.text,'lxml')
-
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
+                
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1561,18 +1626,22 @@ try:
                         #input()
                 #print(contact,";",emergency_contact,";",home)
 
-                adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps =soup.find_all('div',class_="dl-profile-row-section")[-2].text
                 adeli_number='n/a' 
                 rpps_number ='n/a'
-                if('ADELI' in adeli):
-                    adeli_number=adeli[-9:]
-                if('RPPS' in adeli):
-                    rpps_number=adeli.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                try: 
+                        adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                        if('ADELI' in adeli):
+                             adeli_number=adeli[-9:]
+                        if('RPPS' in adeli):
+                            rpps_number=adeli.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:   
+                        continue
+                
 
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
                 #input()
@@ -1609,28 +1678,31 @@ except Exception:
 try:
     for page in range(1,41):
         start_page=datetime.now()
-        headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
-        a = requests.get("https://www.doctolib.fr/acupuncteur/france?page="+str(page),headers=headers)
-        soup = BeautifulSoup(a.text, 'html.parser')
-        my_bytes = str(soup.encode('utf-8'))
-        f = my_bytes.split('<script type="application/ld+json"')[-2].split('<')
-        u = pd.read_json(StringIO(f[0].replace(">","").replace(slash,"")))
-        time.sleep(6)
+        driver.get("https://www.doctolib.fr/acupuncteur/france?page="+str(page))
+        soup = BeautifulSoup(driver.page_source, 'lxml')
+        link = soup.find_all('a',class_="dl-link",href=True)
+        tablink = []
+        for i in link:
+            if(len(tablink)>=1 and tablink[len(tablink)-1] != str(i['href']) and i['href'][0] == '/'):
+                tablink.append(i["href"])
+            if(len(tablink) == 0 and i['href'][0] == '/'):
+                tablink.append(i['href'])
+        time.sleep(10)
 
-        for result in u['url']:
+        for result in tablink:
             try:
                 a = requests.get("https://www.doctolib.fr"+str(result),headers=headers)
                 soup=BeautifulSoup(a.text,'lxml')
-
+                time.sleep(1)
                 if(len(soup.find_all('div',class_="dl-profile-row-content"))<2):
-                    break
+                    continue
 
                 name=etree.HTML(str(soup)).xpath('//span[@itemprop="name"]')[0].text
                 name_list=name.split(' ')
                 last_name=name_list[-1]
                 first_name=' '.join(name_list[:-1])
                 if(len(first_name)>15 or len(last_name)>15):
-                        break
+                        continue
                 job=result.split('/')[1]
 
                 if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -1719,7 +1791,13 @@ try:
                 #print(contact,";",emergency_contact,";",home)
 
                 adeli=soup.find_all('div',class_="dl-profile-row-section")[-1].text
-                rpps =soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                try: 
+                        rpps = soup.find_all('div',class_="dl-profile-row-section")[-2].text
+                        if('RPPS' in rpps):
+                            rpps_number=rpps.split('S')[1]
+                            print("Numéro rpps = "+rpps_number)
+                except:
+                        continue
                 adeli_number='n/a' 
                 rpps_number ='n/a'
                 if('ADELI' in adeli):
@@ -1727,9 +1805,7 @@ try:
                 if('RPPS' in adeli):
                     rpps_number=adeli.split('S')[1]
                     print("Numéro rpps = "+rpps_number)
-                if('RPPS' in rpps):
-                    rpps_number=rpps.split('S')[1]
-                    print("Numéro rpps = "+rpps_number)
+                
 
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
                 #input()
