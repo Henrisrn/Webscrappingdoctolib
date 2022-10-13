@@ -9,14 +9,25 @@ from datetime import datetime
 from io import StringIO
 import csv
 import json
+from selenium.webdriver.firefox.options import Options
+import socket
+socket.getaddrinfo('localhost', 8080)
+options = Options()
+options.add_argument('--disable-blink-features=AutomationControlled')
 def jprint(obj):
     # create a formatted string of the Python JSON object
     text = json.dumps(obj, sort_keys=True,indent=4)
     print(text)
-driver=webdriver.Chrome("chromedriver")    
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")    
+
 headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
 jobs=['osteopathe','psychologue','chiropracteur','dieteticien','psychomotricien']
-
+a = requests.Session()
+a.proxies = {
+  "http": "http://178.79.138.253",
+  "https": "http://178.79.138.253",
+}
+#a.cookies()
 full_table=[]
 start=datetime.now()
 #Mettre 905
@@ -33,13 +44,15 @@ try:
             if(len(tablink) == 0 and i['href'][0] == '/'):
                 tablink.append(i['href'])
         time.sleep(10)
-
+        
         for i in tablink:
+            try:
                 #driver.get("https://www.doctolib.fr"+str(url))
                 #soup=BeautifulSoup(driver.page_source,'lxml')
                     #a = driver.get("https://www.doctolib.fr"+str(url))
                     print(i)
                     a = requests.get("https://www.doctolib.fr"+str(i),headers=headers)
+                
                     soup = BeautifulSoup(a.text,'lxml')
                     my_bytes = str(soup.encode('utf-8'))
                     time.sleep(1)
@@ -52,6 +65,7 @@ try:
                     first_name=' '.join(name_list[:-1])
                     if(len(first_name)>15 or len(last_name)>15):
                         continue
+
                     job=i.split('/')[1]
 
                     if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
@@ -73,7 +87,6 @@ try:
                         city=' '.join(rest[1:])
                     #print('rest',rest)
                     #print(zipcode,city)
-                    
                     if(len(soup.find_all('div',class_="dl-profile-row-content")[1].text)<1):
                         payment='n/a'
                     else:
@@ -171,21 +184,24 @@ try:
                     full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','Numero RPPS'])
                     full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
                     
-                        
+            except:
+                    print('error, skipping',result)
+                    traceback.print_exc()
+                    time.sleep(1)
                 #f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
                 #f = my_bytes.split('<script type="application/ld+json"')[1].split('<')
                 #hh = f[0].replace(">","").replace(slash,"")
                 #jprint(str(hh))
                 
-                    time.sleep(3)
+            time.sleep(3)
 except Exception:
     full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
     full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("osteopathes1.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+driver.quit()
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 
 try:
     for page in range(391,528):
@@ -351,8 +367,8 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("osteopathesetpsycologue.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+driver.quit()
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 
 try:
     for page in range(1,46):
@@ -524,8 +540,8 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-full_df.to_csv("osteopathesetpsycologueetchiropracteur.csv",quoting=csv.QUOTE_ALL,quotechar='"') 
+driver.quit()
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 
 try:
     for page in range(1,177):
@@ -691,8 +707,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-
-
+driver.quit()
+time.sleep(50)
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 
 try:
     for page in range(1,27):
@@ -855,7 +872,9 @@ except Exception:
     full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
     print('something went wrong')
     traceback.print_exc()
-
+driver.quit()
+time.sleep(50)
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 try:
     for page in range(1,349):
         start_page=datetime.now()
@@ -1017,7 +1036,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-
+driver.quit()
+time.sleep(50)
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 
 try:
     for page in range(1,160):
@@ -1179,7 +1200,9 @@ except Exception:
     full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
     print('something went wrong')
     traceback.print_exc()
-
+driver.quit()
+time.sleep(50)
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 
 try:
     for page in range(1,273):
@@ -1343,7 +1366,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-
+driver.quit()
+time.sleep(50)
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 
 try:
     for page in range(1,117):
@@ -1508,7 +1533,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-
+driver.quit()
+time.sleep(50)
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 
 try:
     for page in range(1,85):
@@ -1673,7 +1700,9 @@ except Exception:
     print('something went wrong')
     traceback.print_exc()
 
-
+driver.quit()
+time.sleep(50)
+driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")  
 
 try:
     for page in range(1,41):
