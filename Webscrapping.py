@@ -9,6 +9,7 @@ from datetime import datetime
 from io import StringIO
 import csv
 import json
+import random
 from selenium.webdriver.firefox.options import Options
 import socket
 socket.getaddrinfo('localhost', 8080)
@@ -23,10 +24,10 @@ driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//ch
 headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
 jobs=['osteopathe','psychologue','chiropracteur','dieteticien','psychomotricien']
 a = requests.Session()
-a.proxies = {
-  "http": "http://178.79.138.253",
-  "https": "http://178.79.138.253",
-}
+#a.proxies = {
+#  "http": "http://178.79.138.253",
+#  "https": "http://178.79.138.253",
+#}
 #a.cookies()
 full_table=[]
 start=datetime.now()
@@ -43,7 +44,7 @@ try:
                 tablink.append(i["href"])
             if(len(tablink) == 0 and i['href'][0] == '/'):
                 tablink.append(i['href'])
-        time.sleep(10)
+        time.sleep(random.randrange(7,11))
         
         for i in tablink:
             try:
@@ -183,17 +184,18 @@ try:
                     print("page "+str(page)+" done;",'time taken for 20 profils : ',time_page)
                     full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','Numero RPPS'])
                     full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
+                    time.sleep(random.randrange(7,11))
                     
             except:
                     print('error, skipping',result)
                     traceback.print_exc()
-                    time.sleep(1)
+                    time.sleep(random.randrange(7,11))
                 #f = my_bytes.split('<script type="application/ld+json"')[2].split('<')
                 #f = my_bytes.split('<script type="application/ld+json"')[1].split('<')
                 #hh = f[0].replace(">","").replace(slash,"")
                 #jprint(str(hh))
                 
-            time.sleep(3)
+            
 except Exception:
     full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
     full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
@@ -215,7 +217,7 @@ try:
                 tablink.append(i["href"])
             if(len(tablink) == 0 and i['href'][0] == '/'):
                 tablink.append(i['href'])
-        time.sleep(10)
+        time.sleep(random.randrange(7,11))
 
         for result in tablink:
             try:
@@ -346,10 +348,11 @@ try:
                 print("Street : "+str(street))
                 print("ZIP : "+str(zipcode))
                 print("RPPS Number : "+str(rpps_number))
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
             
         
         time_page=datetime.now()-start_page
@@ -517,10 +520,11 @@ try:
                 print("Street : "+str(street))
                 print("ZIP : "+str(zipcode))
                 print("RPPS Number : "+str(rpps_number))
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
             
         
         time_page=datetime.now()-start_page
@@ -685,10 +689,11 @@ try:
                 print("Street : "+str(street))
                 print("ZIP : "+str(zipcode))
                 print("RPPS Number : "+str(rpps_number))
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
                 
             
         
@@ -852,10 +857,11 @@ try:
                 print("RPPS Number : "+str(rpps_number))
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
                 #input()
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
             
         
         time_page=datetime.now()-start_page
@@ -1015,10 +1021,11 @@ try:
                 print("RPPS Number : "+str(rpps_number))
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
                 #input()
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
             
         
         time_page=datetime.now()-start_page
@@ -1181,10 +1188,11 @@ try:
                 print("RPPS Number : "+str(rpps_number))
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
                 #input()
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
             
         time_page=datetime.now()-start_page
         print("page "+str(page)+" done;",'time taken for 20 profils : ',time_page)
@@ -1345,10 +1353,11 @@ try:
                 print("RPPS Number : "+str(rpps_number))
                 full_table.append([last_name,first_name,job,adeli_number,street,zipcode,city,payment,education_and_experience,contact,emergency_contact,home,result,rpps_number])
                 #input()
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
             
         
         time_page=datetime.now()-start_page
@@ -1512,10 +1521,11 @@ try:
                 print("Street : "+str(street))
                 print("ZIP : "+str(zipcode))
                 print("RPPS Number : "+str(rpps_number))
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
             
         
         time_page=datetime.now()-start_page
@@ -1679,10 +1689,11 @@ try:
                 print("Street : "+str(street))
                 print("ZIP : "+str(zipcode))
                 print("RPPS Number : "+str(rpps_number))
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
             
         
         time_page=datetime.now()-start_page
@@ -1845,10 +1856,11 @@ try:
                 print("Street : "+str(street))
                 print("ZIP : "+str(zipcode))
                 print("RPPS Number : "+str(rpps_number))
+                time.sleep(random.randrange(7,11))
             except:
                 print('error, skipping',result)
                 traceback.print_exc()
-            time.sleep(3)
+                time.sleep(random.randrange(7,11))
             
         time_page=datetime.now()-start_page
         print("page "+str(page)+" done;",'time taken for 20 profils : ',time_page)
