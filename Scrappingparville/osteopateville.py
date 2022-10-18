@@ -19,8 +19,8 @@ def jprint(obj):
     # create a formatted string of the Python JSON object
     text = json.dumps(obj, sort_keys=True,indent=4)
     print(text)
-driver=webdriver.Chrome("C://Users//henri//Downloads//chromedriver_win32 (2)//chromedriver.exe")    
-Listedevilldecharlatan = [["marseille",1,49],["lyon",1,61],["paris",1,223]]
+driver=webdriver.Chrome("D://Users//33782//Téléchargements//Webscrappingdoctolib-main//Webscrappingdoctolib-main//chromedriver.exe")    
+Listedevilldecharlatan = [["paris",1,230]]
 headers={'Refer':'https://www.doctolib.fr/','user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'}
 jobs=['osteopathe','psychologue','chiropracteur','dieteticien','psychomotricien']
 a = requests.Session()
@@ -200,10 +200,10 @@ try:
             
 except Exception:
     full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
-    full_df.to_csv("osteopathes.csv",quoting=csv.QUOTE_ALL,quotechar='"')
+    full_df.to_csv("osteopathesvilleparis.csv",quoting=csv.QUOTE_ALL,quotechar='"')
     print('something went wrong')
     traceback.print_exc()
-
+full_df= pd.DataFrame(full_table,columns=['Nom','Prenoms','Profession','No ADELI','Rue','Code Postal','Ville','Moyens de paiement','Formations et experiences','Contact',"Contact d_urgence","Visites a domicile",'Lien','RPPS'])
 driver.quit()
 full_df.head()
 
@@ -261,7 +261,7 @@ full_df['Visites a domicile']=full_df['Visites a domicile'].apply(numero_formatt
 
 
 full_df.head()
-full_df.to_csv("osteo.csv",quoting=csv.QUOTE_ALL)
-full_df.to_excel("osteo.xlsx" )
+full_df.to_csv("osteovilleparis.csv",quoting=csv.QUOTE_ALL)
+full_df.to_excel("osteovilleparis.xlsx" )
 
 #,quoting=csv.QUOTE_ALL
